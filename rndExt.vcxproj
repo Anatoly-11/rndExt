@@ -135,12 +135,14 @@
       <AdditionalDependencies>uuid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-@echo off
-
+      <Command>@echo off
 copy headers\rndExt.h   test\headers
 copy $(Platform)\$(Configuration)\rndExt.lib  test\lib
 copy $(Platform)\$(Configuration)\rndExt.dll  test\x64\Debug
+
+copy headers\rndExt.h   ..\matrix\headers
+copy $(Platform)\$(Configuration)\rndExt.lib  ..\matrix\lib
+copy $(Platform)\$(Configuration)\rndExt.dll  ..\matrix\x64\Debug
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -169,12 +171,14 @@ copy $(Platform)\$(Configuration)\rndExt.dll  test\x64\Debug
       <Version>1.0</Version>
     </Link>
     <PostBuildEvent>
-      <Command>
-@echo off
-
+      <Command>@echo off
 copy headers\rndExt.h   test\headers
 copy $(Platform)\$(Configuration)\rndExt.lib  test\lib
 copy $(Platform)\$(Configuration)\rndExt.dll  test\x64\Debug
+
+copy headers\rndExt.h   ..\matrix\headers
+copy $(Platform)\$(Configuration)\rndExt.lib  ..\matrix\lib
+copy $(Platform)\$(Configuration)\rndExt.dll  ..\matrix\x64\Debug
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
