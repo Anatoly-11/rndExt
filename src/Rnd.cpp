@@ -2,6 +2,7 @@
 #include <random>
 #include <map>
 #include <chrono>
+#include <type_traits>
 //---------------------------------------------------------------------------------------------------------------------------------
 using namespace std;
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -126,70 +127,89 @@ protected:
   }
 };
 //---------------------------------------------------------------------------------------------------------------------------------
-MyRand :: IRndInt8 :: ~IRndInt8() {};
+class IRnd {
+public:
+  virtual void fill(void *) noexcept = 0;
+  virtual ~IRnd() = 0;
+};
 //---------------------------------------------------------------------------------------------------------------------------------
-MyRand :: IRndInt16 :: ~IRndInt16() {};
+IRnd :: ~IRnd() {};
 //---------------------------------------------------------------------------------------------------------------------------------
-MyRand :: IRndInt32 :: ~IRndInt32() {};
+namespace MyRand {
+  IRndInt8 :: ~IRndInt8() {};
+  
+  IRndUint8 :: ~IRndUint8() {};
+  
+  IRndInt16 :: ~IRndInt16() {};
+  
+  IRndUint16 :: ~IRndUint16() {};
+  
+  IRndInt32 :: ~IRndInt32() {};
+  
+  IRndUint32 :: ~IRndUint32() {};
+  
+  IRndInt64 :: ~IRndInt64() {};
+  
+  IRndUint64 :: ~IRndUint64() {};
+  
+  IRndReal32 :: ~IRndReal32() {};
+  
+  IRndReal64 :: ~IRndReal64() {};
+}
 //---------------------------------------------------------------------------------------------------------------------------------
-MyRand :: IRndInt64 :: ~IRndInt64() {};
-//---------------------------------------------------------------------------------------------------------------------------------
-MyRand :: IRndUint8 :: ~IRndUint8() {};
-//---------------------------------------------------------------------------------------------------------------------------------
-MyRand :: IRndUint16 :: ~IRndUint16() {};
-//---------------------------------------------------------------------------------------------------------------------------------
-MyRand :: IRndUint32 :: ~IRndUint32() {};
-//---------------------------------------------------------------------------------------------------------------------------------
-MyRand :: IRndUint64 :: ~IRndUint64() {};
-//---------------------------------------------------------------------------------------------------------------------------------
-MyRand :: IRndReal32 :: ~IRndReal32() {};
-//---------------------------------------------------------------------------------------------------------------------------------
-MyRand :: IRndReal64 :: ~IRndReal64() {};
-//---------------------------------------------------------------------------------------------------------------------------------
-class RndInt8 : public MyRand :: IRndInt8, public RndIntImpl<int16_t> {
+class RndInt8 : public MyRand :: IRndInt8, public RndIntImpl<int16_t>, public IRnd {
 public:
   RndInt8() : RndIntImpl<int16_t>() {}
 
   RndInt8(const int8_t min, const int8_t max) : RndIntImpl<int16_t>(min, max) {}
 
   virtual int8_t get() noexcept  override {
-    return RndIntImpl<int16_t>::get();
+    return static_cast<int8_t>(RndIntImpl<int16_t>::get());
   }
 
   virtual int8_t get(const int8_t min, const int8_t max) noexcept  override {
-    return RndIntImpl<int16_t>::get(min, max);
+    return static_cast<int8_t>(RndIntImpl<int16_t>::get(min, max));
   }
 
   virtual int8_t getRep(const int8_t min, const int8_t max) noexcept  override {
-    return RndIntImpl<int16_t>::getRep(min, max);
+    return static_cast<int8_t>(RndIntImpl<int16_t>::getRep(min, max));
   }
+
+  virtual void fill(void *v) noexcept  override {
+    *reinterpret_cast<int8_t*>(v) = static_cast<int8_t>(RndIntImpl<int16_t>::get());
+  }
+
   virtual ~RndInt8() override {
   }
 };
 //---------------------------------------------------------------------------------------------------------------------------------
-class RndUint8 : public MyRand ::IRndUint8, public RndIntImpl<uint16_t> {
+class RndUint8 : public MyRand ::IRndUint8, public RndIntImpl<uint16_t>, public IRnd {
 public:
   RndUint8() : RndIntImpl<uint16_t>() {}
 
   RndUint8(const uint8_t min, const uint8_t max) : RndIntImpl<uint16_t>(min, max) {}
 
   virtual uint8_t get() noexcept  override {
-    return RndIntImpl<uint16_t>::get();
+    return static_cast<uint8_t>(RndIntImpl<uint16_t>::get());
   }
 
   virtual uint8_t get(const uint8_t min, const uint8_t max) noexcept  override {
-    return RndIntImpl<uint16_t>::get(min, max);
+    return static_cast<uint8_t>(RndIntImpl<uint16_t>::get(min, max));
   }
 
   virtual uint8_t getRep(const uint8_t min, const uint8_t max) noexcept  override {
-    return RndIntImpl<uint16_t>::getRep(min, max);
+    return static_cast<uint8_t>(RndIntImpl<uint16_t>::getRep(min, max));
+  }
+
+  virtual void fill(void *v) noexcept  override {
+    *reinterpret_cast<uint8_t*>(v) = static_cast<uint8_t>(RndIntImpl<uint16_t>::get());
   }
 
   virtual ~RndUint8() override {
   }
 };
 //---------------------------------------------------------------------------------------------------------------------------------
-class RndInt16 : public MyRand :: IRndInt16, public RndIntImpl<int16_t> {
+class RndInt16 : public MyRand :: IRndInt16, public RndIntImpl<int16_t>, public IRnd {
 public:
   RndInt16() : RndIntImpl<int16_t>() {}
 
@@ -207,11 +227,15 @@ public:
     return RndIntImpl<int16_t>::getRep(min, max);
   }
 
+  virtual void fill(void *v) noexcept  override {
+    *reinterpret_cast<int16_t*>(v) = RndIntImpl<int16_t>::get();
+  }
+
   virtual ~RndInt16() override {
   }
 };
 //---------------------------------------------------------------------------------------------------------------------------------
-class RndUint16 : public MyRand::IRndUint16, public RndIntImpl<uint16_t> {
+class RndUint16 : public MyRand::IRndUint16, public RndIntImpl<uint16_t>, public IRnd {
 public:
   RndUint16() : RndIntImpl<uint16_t>() {}
 
@@ -229,11 +253,15 @@ public:
     return RndIntImpl<uint16_t>::getRep(min, max);
   }
 
+  virtual void fill(void *v) noexcept  override {
+    *reinterpret_cast<uint16_t*>(v) = RndIntImpl<uint16_t>::get();
+  }
+
   virtual ~RndUint16() override {
   }
 };
 //---------------------------------------------------------------------------------------------------------------------------------
-class RndInt32 : public MyRand :: IRndInt32, public RndIntImpl<int32_t> {
+class RndInt32 : public MyRand :: IRndInt32, public RndIntImpl<int32_t>, public IRnd {
 public:
   RndInt32() : RndIntImpl<int32_t>() {}
 
@@ -251,11 +279,15 @@ public:
     return RndIntImpl<int32_t>::getRep(min, max);
   }
 
+  virtual void fill(void *v) noexcept  override {
+    *reinterpret_cast<int32_t*>(v) = RndIntImpl<int32_t>::get();
+  }
+
   virtual ~RndInt32() override {
   }
 };
 //---------------------------------------------------------------------------------------------------------------------------------
-class RndUint32 : public MyRand :: IRndUint32, public RndIntImpl<uint32_t> {
+class RndUint32 : public MyRand :: IRndUint32, public RndIntImpl<uint32_t>, public IRnd {
 public:
   RndUint32() : RndIntImpl<uint32_t>() {}
 
@@ -273,11 +305,15 @@ public:
     return RndIntImpl<uint32_t>::getRep(min, max);
   }
 
+  virtual void fill(void *v) noexcept  override {
+    *reinterpret_cast<uint32_t*>(v) = RndIntImpl<uint32_t>::get();
+  }
+
   virtual ~RndUint32() override {
   }
 };
 //---------------------------------------------------------------------------------------------------------------------------------
-class RndInt64 : public MyRand :: IRndInt64, public RndIntImpl<int64_t> {
+class RndInt64 : public MyRand :: IRndInt64, public RndIntImpl<int64_t>, public IRnd {
 public:
   RndInt64() : RndIntImpl<int64_t>() {}
 
@@ -295,11 +331,15 @@ public:
     return RndIntImpl<int64_t>::getRep(min, max);
   }
 
+  virtual void fill(void *v) noexcept  override {
+    *reinterpret_cast<int64_t*>(v) = RndIntImpl<int64_t>::get();
+  }
+
   virtual ~RndInt64() override {
   }
 };
 //---------------------------------------------------------------------------------------------------------------------------------
-class RndUint64 : public MyRand :: IRndUint64, public RndIntImpl<uint64_t> {
+class RndUint64 : public MyRand :: IRndUint64, public RndIntImpl<uint64_t>, public IRnd {
 public:
   RndUint64() : RndIntImpl<uint64_t>() {}
 
@@ -317,11 +357,15 @@ public:
     return RndIntImpl<uint64_t>::getRep(min, max);
   }
 
+  virtual void fill(void *v) noexcept  override {
+    *reinterpret_cast<uint64_t*>(v) = RndIntImpl<uint64_t>::get();
+  }
+
   virtual ~RndUint64() override {
   }
 };
 //---------------------------------------------------------------------------------------------------------------------------------
-class RndReal32 : public MyRand :: IRndReal32, public  RndRealImpl<real32_t> {
+class RndReal32 : public MyRand :: IRndReal32, public  RndRealImpl<real32_t>, public IRnd {
 public:
   RndReal32() : RndRealImpl<real32_t>() {}
 
@@ -339,11 +383,15 @@ public:
     return RndRealImpl<real32_t>::getRep(min, max);
   }
 
+  virtual void fill(void *v) noexcept  override {
+    *reinterpret_cast<real32_t*>(v) = RndRealImpl<real32_t>::get();
+  }
+
   virtual ~RndReal32() {
   }
 };
 //---------------------------------------------------------------------------------------------------------------------------------
-class RndReal64 : public MyRand :: IRndReal64, public  RndRealImpl<real64_t> {
+class RndReal64 : public MyRand :: IRndReal64, public  RndRealImpl<real64_t>, public IRnd {
 public:
   RndReal64() : RndRealImpl<real64_t>() {}
   RndReal64(const real64_t min, const real64_t max) : RndRealImpl<real64_t>(min, max) {}
@@ -360,6 +408,10 @@ public:
     return RndRealImpl<real64_t>::getRep(min, max);
   }
 
+  virtual void fill(void *v) noexcept  override {
+    *reinterpret_cast<real64_t*>(v) = RndRealImpl<real64_t>::get();
+  }
+
   virtual ~RndReal64() {
   }
 };
@@ -369,16 +421,17 @@ RND_DLL_API void* MyRand::GetRnd(const EValType tp) noexcept {
   if(isMultiThread) {
     grd.lock();
   }
-  void *rnd = (tp == EValType::Int8 ? (void*)(new RndInt8) :
-    tp == EValType::Uint8 ? (void*)(new RndUint8) :
-    tp == EValType::Int16 ? (void*)(new RndUint16) :
-    tp == EValType::Uint16 ? (void*)(new RndUint16) :
-    tp == EValType::Int ? (void*)(new RndInt32) :
-    tp == EValType::Uint ? (void*)(new RndUint32) :
-    tp == EValType::Long ? (void*)(new RndInt64) :
-    tp == EValType::Ulong ? (void*)(new RndUint64) :
-    tp == EValType::Flt ? (void*)(new RndReal32) :
-    tp == EValType::Dbl ? (void*)(new RndReal64) : nullptr);
+  void *rnd = (tp == MyRand::EValType::Int8) ? (void*)(new RndInt8) :
+    (tp == MyRand::EValType::Uint8)  ? (void*)(new RndUint8)  :
+    (tp == MyRand::EValType::Int16)  ? (void*)(new RndUint16) :
+    (tp == MyRand::EValType::Uint16) ? (void*)(new RndUint16) :
+    (tp == MyRand::EValType::Int32)  ? (void*)(new RndInt32)  :
+    (tp == MyRand::EValType::Uint32) ? (void*)(new RndUint32) :
+    (tp == MyRand::EValType::Int64)  ? (void*)(new RndInt64)  :
+    (tp == MyRand::EValType::Uint64) ? (void*)(new RndUint64) :
+    (tp == MyRand::EValType::Real32) ? (void*)(new RndReal32) :
+    (tp == MyRand::EValType::Real64) ? (void*)(new RndReal64) :
+    nullptr;
   if(isMultiThread) {
     grd.unlock();
   }
@@ -505,7 +558,127 @@ RND_DLL_API MyRand::IRndReal64 *MyRand::GetRnd(const real64_t min, const real64_
   return rnd;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
+/*int FillArrayUniq(int arr[], const int low, const int hi, const int size){
+    if(hi - low + 1 <= size) return -1;  // Провека на зацикливание
+    for(int i = 0; i < size; i++){
+        int newValue;
+        for(;;){
+            newValue = low + getRnd() % (hi - low + 1);
+            int j = 0;
+            while(j < i){
+                if(arr[j] == newValue) break;
+                j++;
+            }
+            if(i == j) break;
+        }
+        arr[i] = newValue;
+    }
+    return 0;  // Успешное заполнение
+}*/
+//---------------------------------------------------------------------------------------------------------------------------------
+template <typename T>
+void FillArrayImpl(MyRand::EValType tp, const T  min, const T max, T *arr, const size_t _n, bool isUnique) noexcept {
+  IRnd *rnd = ((tp == MyRand::EValType::Int8) ? (IRnd*)(new RndInt8(min, max)) :
+    (tp == MyRand::EValType::Uint8)  ? (IRnd*)(new RndUint8(min, max))  :
+    (tp == MyRand::EValType::Int16)  ? (IRnd*)(new RndUint16(min, max)) :
+    (tp == MyRand::EValType::Uint16) ? (IRnd*)(new RndUint16(min, max)) :
+    (tp == MyRand::EValType::Int32)  ? (IRnd*)(new RndInt32(min, max))  :
+    (tp == MyRand::EValType::Uint32) ? (IRnd*)(new RndUint32(min, max)) :
+    (tp == MyRand::EValType::Int64)  ? (IRnd*)(new RndInt64(min, max))  :
+    (tp == MyRand::EValType::Uint64) ? (IRnd*)(new RndUint64(min, max)) :
+    (tp == MyRand::EValType::Real32) ? (IRnd*)(new RndReal32(min, max)) :
+    (tp == MyRand::EValType::Real64) ? (IRnd*)(new RndReal64(min, max)) :
+    (IRnd*)nullptr);
+  if(rnd != nullptr) {
+    for(size_t i = 0; i < _n; i++) {
+      T newValue{};
+      for(;;) {
+        rnd->fill(&newValue);
+        if(!isUnique) {
+          break; 
+        }
+        size_t j = 0; // надо посмотреть есть ли такое число в уже сгенерированных
+        while(j < i) {
+          if(arr[j] == newValue) {
+            break; // да нашли, выход из проверки, дальше проверять не надо 
+          }
+          j++;
+        }
+        if(j == i) {
+          break; // перебрали все уже сгенерированые, числа нет(если есть то j на выходе бедет меньше i, но оно ему равно)
+        }
+      }
+      arr[i] = newValue;
+    }
+    delete rnd;
+  }
+}
+//---------------------------------------------------------------------------------------------------------------------------------
 RND_DLL_API bool MyRand::FillArray(const int8_t  min, const int8_t max, int8_t *arr, const size_t _n, bool isUnique) noexcept {
-
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  FillArrayImpl<int8_t>(MyRand::EValType::Int8, min, max, arr, _n, isUnique);
+  return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RND_DLL_API bool MyRand::FillArray(const uint8_t  min, const uint8_t max, uint8_t *arr, const size_t _n, bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  FillArrayImpl<uint8_t>(MyRand::EValType::Uint8, min, max, arr, _n, isUnique);
+  return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RND_DLL_API bool MyRand::FillArray(const int16_t  min, const int16_t max, int16_t *arr, const size_t _n, bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  FillArrayImpl<int16_t>(MyRand::EValType::Int16, min, max, arr, _n, isUnique);
+  return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RND_DLL_API bool MyRand::FillArray(const uint16_t  min, const uint16_t max, uint16_t *arr, const size_t _n, bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  FillArrayImpl<uint16_t>(MyRand::EValType::Uint16, min, max, arr, _n, isUnique);
+  return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RND_DLL_API bool MyRand::FillArray(const int32_t  min, const int32_t max, int32_t *arr, const size_t _n, bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  FillArrayImpl<int32_t>(MyRand::EValType::Int32, min, max, arr, _n, isUnique);
+  return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RND_DLL_API bool MyRand::FillArray(const uint32_t  min, const uint32_t max, uint32_t *arr, const size_t _n, bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  FillArrayImpl<uint32_t>(MyRand::EValType::Uint32, min, max, arr, _n, isUnique);
+  return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RND_DLL_API bool MyRand::FillArray(const int64_t  min, const int64_t max, int64_t *arr, const size_t _n, bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  FillArrayImpl<int64_t>(MyRand::EValType::Int64, min, max, arr, _n, isUnique);
+  return true;
+}
+//-------------------------------------------------------------------------------------------------------------------------------
+RND_DLL_API bool MyRand::FillArray(const uint64_t  min, const uint64_t max, uint64_t *arr, const size_t _n, bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  FillArrayImpl<uint64_t>(MyRand::EValType::Uint64, min, max, arr, _n, isUnique);
+  return true;
+}
+//-------------------------------------------------------------------------------------------------------------------------------
+RND_DLL_API bool MyRand::FillArray(const real32_t  min, const real32_t max, real32_t *arr, const size_t _n, bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  FillArrayImpl<real32_t>(MyRand::EValType::Real32, min, max, arr, _n, isUnique);
+  return true;
+}
+//-------------------------------------------------------------------------------------------------------------------------------
+RND_DLL_API bool MyRand::FillArray(const real64_t  min, const real64_t max, real64_t *arr, const size_t _n, bool isUnique) noexcept {
+  FillArrayImpl<real64_t>(MyRand::EValType::Real64, min, max, arr, _n, isUnique);
+  return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------

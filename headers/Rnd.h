@@ -107,7 +107,7 @@ namespace MyRand{
     virtual ~IRndReal64() = 0;
   };
   //-------------------------------------------------------------------------------------------------------------------------------
-  enum class EValType : uint8_t { Int8, Uint8, Int16, Uint16, Int, Uint, Long, Ulong, Flt, Dbl };
+  enum class EValType : uint8_t { Int8, Uint8, Int16, Uint16, Int32, Uint32, Int64, Uint64, Real32, Real64 };
   //---------------------------------------------------------------------------------------------------------------------------------
   template<typename T>
   T *convertTo(void *ptr) {
@@ -141,6 +141,24 @@ namespace MyRand{
   RND_DLL_API IRndReal64 *GetRnd(const real64_t  min, const real64_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
   RND_DLL_API bool FillArray(const int8_t  min, const int8_t max, int8_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RND_DLL_API bool FillArray(const uint8_t  min, const uint8_t max, uint8_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RND_DLL_API bool FillArray(const int16_t  min, const int16_t max, int16_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RND_DLL_API bool FillArray(const uint16_t  min, const uint16_t max, uint16_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RND_DLL_API bool FillArray(const int32_t  min, const int32_t max, int32_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RND_DLL_API bool FillArray(const uint32_t  min, const uint32_t max, uint32_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RND_DLL_API bool FillArray(const int64_t  min, const int64_t max, int64_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RND_DLL_API bool FillArray(const uint64_t  min, const uint64_t max, uint64_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RND_DLL_API bool FillArray(const real32_t  min, const real32_t max, real32_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RND_DLL_API bool FillArray(const real64_t  min, const real64_t max, real64_t *arr, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
 } // !namespace MyRand
 #endif // !_RND_H_
