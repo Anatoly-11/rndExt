@@ -558,24 +558,6 @@ RND_DLL_API MyRand::IRndReal64 *MyRand::GetRnd(const real64_t min, const real64_
   return rnd;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-/*int FillArrayUniq(int arr[], const int low, const int hi, const int size){
-    if(hi - low + 1 <= size) return -1;  // Провека на зацикливание
-    for(int i = 0; i < size; i++){
-        int newValue;
-        for(;;){
-            newValue = low + getRnd() % (hi - low + 1);
-            int j = 0;
-            while(j < i){
-                if(arr[j] == newValue) break;
-                j++;
-            }
-            if(i == j) break;
-        }
-        arr[i] = newValue;
-    }
-    return 0;  // Успешное заполнение
-}*/
-//---------------------------------------------------------------------------------------------------------------------------------
 template <typename T>
 void FillArrayImpl(MyRand::EValType tp, const T  min, const T max, T *arr, const size_t _n, bool isUnique) noexcept {
   IRnd *rnd = ((tp == MyRand::EValType::Int8) ? (IRnd*)(new RndInt8(min, max)) :
