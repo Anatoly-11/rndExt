@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _RND_H_
-#define _RND_H_ 1.0
+#ifndef _RNDEXT_H_
+#define _RNDEXT_H_ 1.0
 //---------------------------------------------------------------------------------------------------------------------------------
 /* 
 Определяет ряд объектов для основных типов чисел целых и с плавающей точкой. Объекты генерят случайные числа в равномерном
@@ -15,10 +15,10 @@ Attention! После использования обязательно вызывать функцию очистки ReleaseRnd. 
 #include <cstdint>
 #include <string>
 #include <variant>
-#ifndef RND_EXPORT
-#define RND_DLL_API __declspec(dllimport)
+#ifdef RNDEXT_EXPORT
+#define RNDEXT_DLL __declspec(dllexport)
 #else
-#define RND_DLL_API __declspec(dllexport)
+#define RNDEXT_DLL __declspec(dllimport)
 #endif
 using real32_t = float;
 using real64_t = double;
@@ -114,52 +114,52 @@ namespace MyRand{
     return reinterpret_cast<T*>(ptr);
   }
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API void SetMultithread(const bool _Is) noexcept;
+  RNDEXT_DLL void SetMultithread(const bool _Is) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool getMultithread() noexcept;
+  RNDEXT_DLL bool getMultithread() noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API void *GetRnd(const EValType tp) noexcept;
+  RNDEXT_DLL void *GetRnd(const EValType tp) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API IRndInt8 *GetRnd(const int8_t min, const int8_t max) noexcept;
+  RNDEXT_DLL IRndInt8 *GetRnd(const int8_t min, const int8_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API IRndUint8 *GetRnd(const uint8_t min, const uint8_t max) noexcept;
+  RNDEXT_DLL IRndUint8 *GetRnd(const uint8_t min, const uint8_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API IRndInt16 *GetRnd(const int16_t min, const int16_t max) noexcept;
+  RNDEXT_DLL IRndInt16 *GetRnd(const int16_t min, const int16_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API IRndUint16 *GetRnd(const uint16_t min, const uint16_t max) noexcept;
+  RNDEXT_DLL IRndUint16 *GetRnd(const uint16_t min, const uint16_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API IRndInt32 *GetRnd(const int32_t min, const int32_t max) noexcept;
+  RNDEXT_DLL IRndInt32 *GetRnd(const int32_t min, const int32_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API IRndUint32 *GetRnd(const uint32_t min, const uint32_t max) noexcept;
+  RNDEXT_DLL IRndUint32 *GetRnd(const uint32_t min, const uint32_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API IRndInt64 *GetRnd(const int64_t min, const int64_t max) noexcept;
+  RNDEXT_DLL IRndInt64 *GetRnd(const int64_t min, const int64_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API IRndUint64 *GetRnd(const uint64_t min, const uint64_t max) noexcept;
+  RNDEXT_DLL IRndUint64 *GetRnd(const uint64_t min, const uint64_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API IRndReal32 *GetRnd(const  real32_t min, const real32_t max) noexcept;
+  RNDEXT_DLL IRndReal32 *GetRnd(const  real32_t min, const real32_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API IRndReal64 *GetRnd(const real64_t  min, const real64_t max) noexcept;
+  RNDEXT_DLL IRndReal64 *GetRnd(const real64_t  min, const real64_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool FillArray(const int8_t  min, const int8_t max, int8_t *arr, const size_t _n, bool isUnique) noexcept;
+  RNDEXT_DLL bool FillArray(const int8_t  min, const int8_t max, int8_t *arr, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool FillArray(const uint8_t  min, const uint8_t max, uint8_t *arr, const size_t _n, bool isUnique) noexcept;
+  RNDEXT_DLL bool FillArray(const uint8_t  min, const uint8_t max, uint8_t *arr, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool FillArray(const int16_t  min, const int16_t max, int16_t *arr, const size_t _n, bool isUnique) noexcept;
+  RNDEXT_DLL bool FillArray(const int16_t  min, const int16_t max, int16_t *arr, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool FillArray(const uint16_t  min, const uint16_t max, uint16_t *arr, const size_t _n, bool isUnique) noexcept;
+  RNDEXT_DLL bool FillArray(const uint16_t  min, const uint16_t max, uint16_t *arr, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool FillArray(const int32_t  min, const int32_t max, int32_t *arr, const size_t _n, bool isUnique) noexcept;
+  RNDEXT_DLL bool FillArray(const int32_t  min, const int32_t max, int32_t *arr, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool FillArray(const uint32_t  min, const uint32_t max, uint32_t *arr, const size_t _n, bool isUnique) noexcept;
+  RNDEXT_DLL bool FillArray(const uint32_t  min, const uint32_t max, uint32_t *arr, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool FillArray(const int64_t  min, const int64_t max, int64_t *arr, const size_t _n, bool isUnique) noexcept;
+  RNDEXT_DLL bool FillArray(const int64_t  min, const int64_t max, int64_t *arr, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool FillArray(const uint64_t  min, const uint64_t max, uint64_t *arr, const size_t _n, bool isUnique) noexcept;
+  RNDEXT_DLL bool FillArray(const uint64_t  min, const uint64_t max, uint64_t *arr, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool FillArray(const real32_t  min, const real32_t max, real32_t *arr, const size_t _n, bool isUnique) noexcept;
+  RNDEXT_DLL bool FillArray(const real32_t  min, const real32_t max, real32_t *arr, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool FillArray(const real64_t  min, const real64_t max, real64_t *arr, const size_t _n, bool isUnique) noexcept;
+  RNDEXT_DLL bool FillArray(const real64_t  min, const real64_t max, real64_t *arr, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
 } // !namespace MyRand
-#endif // !_RND_H_
+#endif // !_RNDEXT_H_
 //---------------------------------------------------------------------------------------------------------------------------------

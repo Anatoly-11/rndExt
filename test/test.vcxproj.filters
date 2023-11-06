@@ -18,21 +18,13 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)src\gtest\gtest-all.cc">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)src\gmock\gmock-all.cc">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <None Include="README.md" />
+    <None Include="packages\google-testmock.1.14.0\google-testmock.1.14.0.nupkg" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\Rnd.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="headers\UUID.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>

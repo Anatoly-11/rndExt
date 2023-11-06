@@ -23,10 +23,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="packages\google-testmock.1.14.0\google-testmock.1.14.0.nupkg" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\Rnd.h" />
     <ClInclude Include="headers\UUID.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -85,9 +85,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -132,9 +134,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <Version>1.0</Version>
       <AdditionalLibraryDirectories>lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>uuid.lib;rnd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>rndExt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(ProjectDir)$(Platform)\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
+    <PreBuildEvent>
+      <Command>@echo off
+copy headers\rndExt.h   test\headers
+copy $(Platform)\$(Configuration)\rndExt.lib  test\lib
+copy $(Platform)\$(Configuration)\rndExt.dll  test\x64\Debug
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -155,9 +164,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <Version>1.0</Version>
       <AdditionalLibraryDirectories>lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>uuid.lib;rnd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>rndExt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(ProjectDir)$(Platform)\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
     </Link>
+    <PreBuildEvent>
+      <Command>@echo off
+copy headers\rndExt.h   test\headers
+copy $(Platform)\$(Configuration)\rndExt.lib  test\lib
+copy $(Platform)\$(Configuration)\rndExt.dll  test\x64\Debug
+</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

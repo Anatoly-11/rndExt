@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _RND_H_
-#define _RND_H_ 1.0
+#ifndef _RNDEXT_H_
+#define _RNDEXT_H_ 1.0
 //---------------------------------------------------------------------------------------------------------------------------------
 /* 
 Определяет ряд объектов для основных типов чисел целых и с плавающей точкой. Объекты генерят случайные числа в равномерном
@@ -14,12 +14,11 @@ Attention! После использования обязательно вызывать функцию очистки ReleaseRnd. 
 //---------------------------------------------------------------------------------------------------------------------------------
 #include <cstdint>
 #include <string>
-#include <tuple>
-#include <UUID.h>
-#ifndef RND_EXPORT
-#define RND_DLL_API __declspec(dllimport)
+#include <variant>
+#ifdef RNDEXT_EXPORT
+#define RNDEXT_DLL __declspec(dllexport)
 #else
-#define RND_DLL_API __declspec(dllexport)
+#define RNDEXT_DLL __declspec(dllimport)
 #endif
 using real32_t = float;
 using real64_t = double;
@@ -33,6 +32,7 @@ namespace MyRand{
     virtual int8_t get() noexcept = 0;
     virtual int8_t get(const int8_t min, const int8_t max) noexcept = 0 ;
     virtual int8_t getRep(const int8_t min, const int8_t max) noexcept = 0 ;
+    virtual ~IRndInt8() = 0;
   };
   //-------------------------------------------------------------------------------------------------------------------------------
   class IRndUint8 { 
@@ -40,6 +40,7 @@ namespace MyRand{
     virtual uint8_t get() noexcept = 0;
     virtual uint8_t get(const uint8_t min, const uint8_t max) noexcept = 0 ;
     virtual uint8_t getRep(const uint8_t min, const uint8_t max) noexcept = 0 ;
+    virtual ~IRndUint8() = 0;
   };
   //-------------------------------------------------------------------------------------------------------------------------------
   class IRndInt16 { 
@@ -47,6 +48,7 @@ namespace MyRand{
     virtual int16_t get() noexcept = 0;
     virtual int16_t get(const int16_t min, const int16_t max) noexcept = 0 ;
     virtual int16_t getRep(const int16_t min, const int16_t max) noexcept = 0 ;
+    virtual ~IRndInt16() = 0;
   };
   //-------------------------------------------------------------------------------------------------------------------------------
   class IRndUint16 { 
@@ -54,85 +56,110 @@ namespace MyRand{
     virtual uint16_t get() noexcept = 0;
     virtual uint16_t get(const uint16_t min, const uint16_t max) noexcept = 0 ;
     virtual uint16_t getRep(const uint16_t min, const uint16_t max) noexcept = 0 ;
+    virtual ~IRndUint16() = 0;
   };
   //-------------------------------------------------------------------------------------------------------------------------------
-  class IRndInt { 
+  class IRndInt32 { 
   public:
     virtual int32_t get() noexcept = 0;
     virtual int32_t get(const int32_t min, const int32_t max) noexcept = 0 ;
     virtual int32_t getRep(const int32_t min, const int32_t max) noexcept = 0 ;
+    virtual ~IRndInt32() = 0;
   };
   //-------------------------------------------------------------------------------------------------------------------------------
-  class IRndUint{ 
+  class IRndUint32{ 
   public:
     virtual uint32_t get() noexcept = 0;
     virtual uint32_t get(const uint32_t min, const uint32_t max) noexcept = 0;
     virtual uint32_t getRep(const uint32_t min, const uint32_t max) noexcept = 0;
+    virtual ~IRndUint32() = 0;
   };
   //-------------------------------------------------------------------------------------------------------------------------------
-  class IRndLong { 
+  class IRndInt64 { 
   public:
     virtual int64_t get() noexcept = 0;
     virtual int64_t get(const int64_t min, const int64_t max) noexcept = 0;
     virtual int64_t getRep(const int64_t min, const int64_t max) noexcept = 0;
+    virtual ~IRndInt64() = 0;
   };
   //-------------------------------------------------------------------------------------------------------------------------------
-  class IRndUlong { 
+  class IRndUint64 { 
   public:
     virtual uint64_t get() noexcept = 0;
     virtual uint64_t get(const uint64_t min, const uint64_t max) noexcept = 0;
     virtual uint64_t getRep(const uint64_t min, const uint64_t max) noexcept = 0;
+    virtual ~IRndUint64() = 0;
   };
   //-------------------------------------------------------------------------------------------------------------------------------
-  class IRndFlt { 
+  class IRndReal32 { 
   public:
     virtual real32_t get() noexcept = 0;
     virtual real32_t get(const real32_t min, const real32_t max) noexcept = 0;
     virtual real32_t getRep(const real32_t min, const real32_t max) noexcept = 0;
+    virtual ~IRndReal32() = 0;
   };
   //-------------------------------------------------------------------------------------------------------------------------------
-  class IRndDbl { 
+  class IRndReal64 { 
   public:
     virtual real64_t get() noexcept = 0;
     virtual real64_t get(const real64_t min, const real64_t max) noexcept = 0;
     virtual real64_t getRep(const real64_t min, const real64_t max) noexcept = 0;
+    virtual ~IRndReal64() = 0;
   };
   //-------------------------------------------------------------------------------------------------------------------------------
-  enum class EValType : uint8_t { Int8, Uint8, Int16, Uint16, Int, Uint, Long, Ulong, Flt, Dbl };
+  enum class EValType : uint8_t { Int8, Uint8, Int16, Uint16, Int32, Uint32, Int64, Uint64, Real32, Real64 };
   //---------------------------------------------------------------------------------------------------------------------------------
   template<typename T>
   T *convertTo(void *ptr) {
     return reinterpret_cast<T*>(ptr);
   }
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API void SetMultithread(const bool _Is) noexcept;
+  RNDEXT_DLL void SetMultithread(const bool _Is) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool getMultithread() noexcept;
+  RNDEXT_DLL bool getMultithread() noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API std::tuple<void*, MyUuid::UUID> GetRnd(const EValType tp) noexcept;
+  RNDEXT_DLL void *GetRnd(const EValType tp) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API std::tuple<IRndInt8*, MyUuid::UUID> GetRnd(const int8_t min, const int8_t max) noexcept;
+  RNDEXT_DLL IRndInt8 *GetRnd(const int8_t min, const int8_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API std::tuple<IRndUint8*, MyUuid::UUID> GetRnd(const uint8_t min, const uint8_t max) noexcept;
+  RNDEXT_DLL IRndUint8 *GetRnd(const uint8_t min, const uint8_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API std::tuple<IRndInt16*, MyUuid::UUID> GetRnd(const int16_t min, const int16_t max) noexcept;
+  RNDEXT_DLL IRndInt16 *GetRnd(const int16_t min, const int16_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API std::tuple<IRndUint16*, MyUuid::UUID> GetRnd(const uint16_t min, const uint16_t max) noexcept;
+  RNDEXT_DLL IRndUint16 *GetRnd(const uint16_t min, const uint16_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API std::tuple<IRndInt*, MyUuid::UUID> GetRnd(const int32_t min, const int32_t max) noexcept;
+  RNDEXT_DLL IRndInt32 *GetRnd(const int32_t min, const int32_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API std::tuple<IRndUint*, MyUuid::UUID> GetRnd(const uint32_t min, const uint32_t max) noexcept;
+  RNDEXT_DLL IRndUint32 *GetRnd(const uint32_t min, const uint32_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API std::tuple<IRndLong*, MyUuid::UUID> GetRnd(const int64_t min, const int64_t max) noexcept;
+  RNDEXT_DLL IRndInt64 *GetRnd(const int64_t min, const int64_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API std::tuple<IRndUlong*, MyUuid::UUID> GetRnd(const uint64_t min, const uint64_t max) noexcept;
+  RNDEXT_DLL IRndUint64 *GetRnd(const uint64_t min, const uint64_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API std::tuple<IRndFlt*, MyUuid::UUID> GetRnd(const  real32_t min, const real32_t max) noexcept;
+  RNDEXT_DLL IRndReal32 *GetRnd(const  real32_t min, const real32_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API std::tuple<IRndDbl*, MyUuid::UUID> GetRnd(const real64_t  min, const real64_t max) noexcept;
+  RNDEXT_DLL IRndReal64 *GetRnd(const real64_t  min, const real64_t max) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
-  RND_DLL_API bool ReleaseRnd(const MyUuid::UUID &_gid) noexcept;
+  RNDEXT_DLL bool FillArray(const int8_t  min, const int8_t max, int8_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL bool FillArray(const uint8_t  min, const uint8_t max, uint8_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL bool FillArray(const int16_t  min, const int16_t max, int16_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL bool FillArray(const uint16_t  min, const uint16_t max, uint16_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL bool FillArray(const int32_t  min, const int32_t max, int32_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL bool FillArray(const uint32_t  min, const uint32_t max, uint32_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL bool FillArray(const int64_t  min, const int64_t max, int64_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL bool FillArray(const uint64_t  min, const uint64_t max, uint64_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL bool FillArray(const real32_t  min, const real32_t max, real32_t *arr, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL bool FillArray(const real64_t  min, const real64_t max, real64_t *arr, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
 } // !namespace MyRand
-#endif // !_RND_H_
+#endif // !_RNDEXT_H_
 //---------------------------------------------------------------------------------------------------------------------------------

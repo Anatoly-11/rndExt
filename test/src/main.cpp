@@ -12,34 +12,64 @@
 #endif
 #include <iostream>
 #include <string>
-#include <UUID.h>
-#include <Rnd.h>
+#include <RndExt.h>
 #include <vector>
 #include <algorithm>
 #include <cstdint>
-#include <tuple>
 //---------------------------------------------------------------------------------------------------------------------------------
 using namespace std;
 //---------------------------------------------------------------------------------------------------------------------------------
 #ifndef MANUAL_RUN
 //---------------------------------------------------------------------------------------------------------------------------------
-TEST(TestCreateReleaseRange, tstInt8) { 
-  int8_t vmin = -50, vmax = 110;
-  auto[rnd, uid] = MyRand::GetRnd(vmin, vmax);
-  vector<int8_t> vv;
-  vv.reserve(100);
-  for(size_t i = 0; i < 100; i++) {
-    vv.push_back(rnd->get());
+template <typename T> 
+bool isUnique(const T arr[], const size_t sz) {
+  for(size_t i = 0; i < sz; ++i) {
+    for(size_t j = 0; j < sz; ++j) {
+      if(i == j) continue;
+      if(arr[i] == arr[j]) return false;
+      break;
+    }
   }
-  auto [v1, v2] = minmax_element(begin(vv), end(vv));
+  return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+TEST(TestFillArrayUnique, tstInt8) { 
+  int8_t vmin = -50, vmax = 110;
+  constexpr size_t SIZE = 100;
+  int8_t arr[SIZE];
+  MyRand::FillArray(vmin, vmax, arr, SIZE, true);
+  auto [v1, v2] = minmax_element(begin(arr), end(arr));
+  /*size_t i = 0;
+  cout << "Generated vector: ";
+  for(; i < SIZE - 1; ++i) {
+    cout << (int)arr[i] << ", ";
+  }
+  cout << (int)arr[i] << "\n";*/
+  ASSERT_TRUE(isUnique(arr, SIZE));
   ASSERT_LE(vmin, *v1);
   ASSERT_GE(vmax, *v2);
-  ASSERT_TRUE(MyRand::ReleaseRnd(uid));
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+TEST(TestFillArrayUnique, tstDbl) { 
+  real64_t vmin = -50.0, vmax = 130.7;
+  constexpr size_t SIZE = 100;
+  real64_t arr[SIZE];
+  MyRand::FillArray(vmin, vmax, arr, SIZE, true);
+  auto [v1, v2] = minmax_element(begin(arr), end(arr));
+  /*size_t i = 0;
+  cout << "Generated vector: ";
+  for(; i < SIZE - 1; ++i) {
+    cout << (int)arr[i] << ", ";
+  }
+  cout << (int)arr[i] << "\n";*/
+  ASSERT_TRUE(isUnique(arr, SIZE));
+  ASSERT_LE(vmin, *v1);
+  ASSERT_GE(vmax, *v2);
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 TEST(TestCreateReleaseRange, tstInt) { 
   int vmin = 0, vmax = 100;
-  auto[rnd, uid] = MyRand::GetRnd(vmin, vmax);
+  auto rnd = MyRand::GetRnd(vmin, vmax);
   vector<int> vv;
   vv.reserve(100);
   for(size_t i = 0; i < 100; i++) {
@@ -48,12 +78,11 @@ TEST(TestCreateReleaseRange, tstInt) {
   auto [v1, v2] = minmax_element(begin(vv), end(vv));
   ASSERT_LE(vmin, *v1);
   ASSERT_GE(vmax, *v2);
-  ASSERT_TRUE(MyRand::ReleaseRnd(uid));
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 TEST(TestCreateReleaseRange, tstULL) { 
   uint64_t vmin = 0, vmax = 2300;
-  auto[rnd, uid] = MyRand::GetRnd(vmin, vmax);
+  auto rnd = MyRand::GetRnd(vmin, vmax);
   vector<uint64_t> vv;
   vv.reserve(100);
   for(size_t i = 0; i < 100; i++) {
@@ -62,12 +91,11 @@ TEST(TestCreateReleaseRange, tstULL) {
   auto [v1, v2] = minmax_element(begin(vv), end(vv));
   ASSERT_LE(vmin, *v1);
   ASSERT_GE(vmax, *v2);
-  ASSERT_TRUE(MyRand::ReleaseRnd(uid));
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 TEST(TestCreateReleaseRange, tstFlt) { 
   float vmin = -5.920f, vmax = 23.45f;
-  auto[rnd, uid] = MyRand::GetRnd(vmin, vmax);
+  auto rnd = MyRand::GetRnd(vmin, vmax);
   vector<float> vv;
   vv.reserve(100);
   for(size_t i = 0; i < 100; i++) {
@@ -76,12 +104,11 @@ TEST(TestCreateReleaseRange, tstFlt) {
   auto [v1, v2] = minmax_element(begin(vv), end(vv));
   ASSERT_LE(vmin, *v1);
   ASSERT_GE(vmax, *v2);
-  ASSERT_TRUE(MyRand::ReleaseRnd(uid));
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 TEST(TestCreateReleaseRange, tstDbl) { 
   double vmin = -528.828, vmax = 2339.929;
-  auto[rnd, uid] = MyRand::GetRnd(vmin, vmax);
+  auto rnd = MyRand::GetRnd(vmin, vmax);
   vector<double> vv;
   vv.reserve(100);
   for(size_t i = 0; i < 100; i++) {
@@ -90,7 +117,6 @@ TEST(TestCreateReleaseRange, tstDbl) {
   auto [v1, v2] = minmax_element(begin(vv), end(vv));
   ASSERT_LE(vmin, *v1);
   ASSERT_GE(vmax, *v2);
-  ASSERT_TRUE(MyRand::ReleaseRnd(uid));
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 #endif

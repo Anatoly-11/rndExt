@@ -1,4 +1,4 @@
-#include <Rnd.h>
+#include <RndExt.h>
 #include <random>
 #include <map>
 #include <chrono>
@@ -10,11 +10,11 @@ mutex mtx;
 //-------------------------------------------------------------------------------------------------------------------------------
 static bool isMultiThread = true;
 //-------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API void MyRand::SetMultithread(const bool _Is) noexcept {
+RNDEXT_DLL void MyRand::SetMultithread(const bool _Is) noexcept {
   isMultiThread = _Is;
 }
 //-------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API bool MyRand::getMultithread() noexcept {
+RNDEXT_DLL bool MyRand::getMultithread() noexcept {
   return isMultiThread;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -416,7 +416,7 @@ public:
   }
 };
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API void* MyRand::GetRnd(const EValType tp) noexcept {
+RNDEXT_DLL void* MyRand::GetRnd(const EValType tp) noexcept {
   unique_lock<mutex> grd(mtx, defer_lock);
   if(isMultiThread) {
     grd.lock();
@@ -438,7 +438,7 @@ RND_DLL_API void* MyRand::GetRnd(const EValType tp) noexcept {
   return rnd;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API MyRand::IRndInt8 *MyRand::GetRnd(const int8_t min, const int8_t max) noexcept {
+RNDEXT_DLL MyRand::IRndInt8 *MyRand::GetRnd(const int8_t min, const int8_t max) noexcept {
   unique_lock<mutex> grd(mtx, defer_lock);
   RndInt8 *rnd = nullptr;
   if(isMultiThread) {
@@ -450,7 +450,7 @@ RND_DLL_API MyRand::IRndInt8 *MyRand::GetRnd(const int8_t min, const int8_t max)
   return rnd;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API MyRand::IRndUint8 *MyRand::GetRnd(const uint8_t min, const uint8_t max) noexcept {
+RNDEXT_DLL MyRand::IRndUint8 *MyRand::GetRnd(const uint8_t min, const uint8_t max) noexcept {
   unique_lock<mutex> grd(mtx, defer_lock);
   RndUint8 *rnd = nullptr;
   if(isMultiThread) {
@@ -462,7 +462,7 @@ RND_DLL_API MyRand::IRndUint8 *MyRand::GetRnd(const uint8_t min, const uint8_t m
   return rnd;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API MyRand::IRndInt16 *MyRand::GetRnd(const int16_t min, const int16_t max) noexcept {
+RNDEXT_DLL MyRand::IRndInt16 *MyRand::GetRnd(const int16_t min, const int16_t max) noexcept {
   unique_lock<mutex> grd(mtx, defer_lock);
   RndInt16 *rnd = nullptr;
   if(isMultiThread) {
@@ -474,7 +474,7 @@ RND_DLL_API MyRand::IRndInt16 *MyRand::GetRnd(const int16_t min, const int16_t m
   return rnd;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API  MyRand::IRndUint16 *MyRand::GetRnd(const uint16_t min, const uint16_t max) noexcept {
+RNDEXT_DLL  MyRand::IRndUint16 *MyRand::GetRnd(const uint16_t min, const uint16_t max) noexcept {
   unique_lock<mutex> grd(mtx, defer_lock);
   RndUint16 *rnd = nullptr;
   if(isMultiThread) {
@@ -486,7 +486,7 @@ RND_DLL_API  MyRand::IRndUint16 *MyRand::GetRnd(const uint16_t min, const uint16
   return rnd;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API MyRand::IRndInt32 *MyRand::GetRnd(const int32_t min, const int32_t max) noexcept {
+RNDEXT_DLL MyRand::IRndInt32 *MyRand::GetRnd(const int32_t min, const int32_t max) noexcept {
   unique_lock<mutex> grd(mtx, defer_lock);
   RndInt32 *rnd = nullptr;
   if(isMultiThread) {
@@ -498,7 +498,7 @@ RND_DLL_API MyRand::IRndInt32 *MyRand::GetRnd(const int32_t min, const int32_t m
   return rnd;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API MyRand::IRndUint32 *MyRand::GetRnd(const uint32_t min, const uint32_t max) noexcept {
+RNDEXT_DLL MyRand::IRndUint32 *MyRand::GetRnd(const uint32_t min, const uint32_t max) noexcept {
   unique_lock<mutex> grd(mtx, defer_lock);
   RndUint32 *rnd = nullptr;
   if(isMultiThread) {
@@ -510,7 +510,7 @@ RND_DLL_API MyRand::IRndUint32 *MyRand::GetRnd(const uint32_t min, const uint32_
   return rnd;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API MyRand::IRndInt64 *MyRand::GetRnd(const int64_t min, const int64_t max) noexcept {
+RNDEXT_DLL MyRand::IRndInt64 *MyRand::GetRnd(const int64_t min, const int64_t max) noexcept {
   unique_lock<mutex> grd(mtx, defer_lock);
   IRndInt64 *rnd = nullptr;
   if(isMultiThread) {
@@ -522,7 +522,7 @@ RND_DLL_API MyRand::IRndInt64 *MyRand::GetRnd(const int64_t min, const int64_t m
   return rnd;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API MyRand::IRndUint64 *MyRand::GetRnd(const uint64_t min, const uint64_t max) noexcept {
+RNDEXT_DLL MyRand::IRndUint64 *MyRand::GetRnd(const uint64_t min, const uint64_t max) noexcept {
   unique_lock<mutex> grd(mtx, defer_lock);
   RndUint64 *rnd = nullptr;
   if(isMultiThread) {
@@ -534,7 +534,7 @@ RND_DLL_API MyRand::IRndUint64 *MyRand::GetRnd(const uint64_t min, const uint64_
   return rnd;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API MyRand::IRndReal32 *MyRand::GetRnd(const real32_t min, const real32_t max) noexcept {
+RNDEXT_DLL MyRand::IRndReal32 *MyRand::GetRnd(const real32_t min, const real32_t max) noexcept {
   unique_lock<mutex> grd(mtx, defer_lock);
   RndReal32 *rnd = nullptr;
   if(isMultiThread) {
@@ -546,7 +546,7 @@ RND_DLL_API MyRand::IRndReal32 *MyRand::GetRnd(const real32_t min, const real32_
   return rnd;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API MyRand::IRndReal64 *MyRand::GetRnd(const real64_t min, const real64_t max) noexcept {
+RNDEXT_DLL MyRand::IRndReal64 *MyRand::GetRnd(const real64_t min, const real64_t max) noexcept {
   unique_lock<mutex> grd(mtx, defer_lock);
   RndReal64 *rnd = nullptr;
   if(isMultiThread) {
@@ -596,70 +596,70 @@ void FillArrayImpl(MyRand::EValType tp, const T  min, const T max, T *arr, const
   }
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API bool MyRand::FillArray(const int8_t  min, const int8_t max, int8_t *arr, const size_t _n, bool isUnique) noexcept {
+RNDEXT_DLL bool MyRand::FillArray(const int8_t  min, const int8_t max, int8_t *arr, const size_t _n, bool isUnique) noexcept {
   if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
   // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
   FillArrayImpl<int8_t>(MyRand::EValType::Int8, min, max, arr, _n, isUnique);
   return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API bool MyRand::FillArray(const uint8_t  min, const uint8_t max, uint8_t *arr, const size_t _n, bool isUnique) noexcept {
+RNDEXT_DLL bool MyRand::FillArray(const uint8_t  min, const uint8_t max, uint8_t *arr, const size_t _n, bool isUnique) noexcept {
   if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
   // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
   FillArrayImpl<uint8_t>(MyRand::EValType::Uint8, min, max, arr, _n, isUnique);
   return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API bool MyRand::FillArray(const int16_t  min, const int16_t max, int16_t *arr, const size_t _n, bool isUnique) noexcept {
+RNDEXT_DLL bool MyRand::FillArray(const int16_t  min, const int16_t max, int16_t *arr, const size_t _n, bool isUnique) noexcept {
   if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
   // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
   FillArrayImpl<int16_t>(MyRand::EValType::Int16, min, max, arr, _n, isUnique);
   return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API bool MyRand::FillArray(const uint16_t  min, const uint16_t max, uint16_t *arr, const size_t _n, bool isUnique) noexcept {
+RNDEXT_DLL bool MyRand::FillArray(const uint16_t  min, const uint16_t max, uint16_t *arr, const size_t _n, bool isUnique) noexcept {
   if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
   // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
   FillArrayImpl<uint16_t>(MyRand::EValType::Uint16, min, max, arr, _n, isUnique);
   return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API bool MyRand::FillArray(const int32_t  min, const int32_t max, int32_t *arr, const size_t _n, bool isUnique) noexcept {
+RNDEXT_DLL bool MyRand::FillArray(const int32_t  min, const int32_t max, int32_t *arr, const size_t _n, bool isUnique) noexcept {
   if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
   // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
   FillArrayImpl<int32_t>(MyRand::EValType::Int32, min, max, arr, _n, isUnique);
   return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API bool MyRand::FillArray(const uint32_t  min, const uint32_t max, uint32_t *arr, const size_t _n, bool isUnique) noexcept {
+RNDEXT_DLL bool MyRand::FillArray(const uint32_t  min, const uint32_t max, uint32_t *arr, const size_t _n, bool isUnique) noexcept {
   if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
   // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
   FillArrayImpl<uint32_t>(MyRand::EValType::Uint32, min, max, arr, _n, isUnique);
   return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API bool MyRand::FillArray(const int64_t  min, const int64_t max, int64_t *arr, const size_t _n, bool isUnique) noexcept {
+RNDEXT_DLL bool MyRand::FillArray(const int64_t  min, const int64_t max, int64_t *arr, const size_t _n, bool isUnique) noexcept {
   if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
   // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
   FillArrayImpl<int64_t>(MyRand::EValType::Int64, min, max, arr, _n, isUnique);
   return true;
 }
 //-------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API bool MyRand::FillArray(const uint64_t  min, const uint64_t max, uint64_t *arr, const size_t _n, bool isUnique) noexcept {
+RNDEXT_DLL bool MyRand::FillArray(const uint64_t  min, const uint64_t max, uint64_t *arr, const size_t _n, bool isUnique) noexcept {
   if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
   // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
   FillArrayImpl<uint64_t>(MyRand::EValType::Uint64, min, max, arr, _n, isUnique);
   return true;
 }
 //-------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API bool MyRand::FillArray(const real32_t  min, const real32_t max, real32_t *arr, const size_t _n, bool isUnique) noexcept {
+RNDEXT_DLL bool MyRand::FillArray(const real32_t  min, const real32_t max, real32_t *arr, const size_t _n, bool isUnique) noexcept {
   if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return false;  // Провека на зацикливание
   // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
   FillArrayImpl<real32_t>(MyRand::EValType::Real32, min, max, arr, _n, isUnique);
   return true;
 }
 //-------------------------------------------------------------------------------------------------------------------------------
-RND_DLL_API bool MyRand::FillArray(const real64_t  min, const real64_t max, real64_t *arr, const size_t _n, bool isUnique) noexcept {
+RNDEXT_DLL bool MyRand::FillArray(const real64_t  min, const real64_t max, real64_t *arr, const size_t _n, bool isUnique) noexcept {
   FillArrayImpl<real64_t>(MyRand::EValType::Real64, min, max, arr, _n, isUnique);
   return true;
 }
