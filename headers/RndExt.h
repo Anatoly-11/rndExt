@@ -162,12 +162,9 @@ namespace MyRand{
   //-------------------------------------------------------------------------------------------------------------------------------
   using VarDat = std::variant<int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, real32_t, real64_t>;
   //-------------------------------------------------------------------------------------------------------------------------------
-  struct RNDEXT_DLL Rng {
-     VarDat min, max;
-     Rng(const VarDat &min, const VarDat &max) noexcept;
-  };
+  struct Rng { VarDat min, max; };
   //-------------------------------------------------------------------------------------------------------------------------------
-  RNDEXT_DLL bool FillArray(const EValType tp, const Rng &r, const size_t _n, void *arr, bool isUnique) noexcept;
+  RNDEXT_DLL bool FillArray(const Rng &r, const size_t _n, void *arr, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
 } // !namespace MyRand
 #endif // !_RNDEXT_H_

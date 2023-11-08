@@ -59,8 +59,7 @@ TEST(TestFillArrayRange, tstDbl) {
   real64_t vmin = -50.0, vmax = 130.7;
   constexpr size_t SIZE = 100;
   real64_t arr[SIZE];
-  MyRand::Rng r(vmin, vmax) ;
-  ASSERT_TRUE(MyRand::FillArray(MyRand::EValType::Real64, r, SIZE, (void*)arr, true));
+  ASSERT_TRUE(MyRand::FillArray({vmin, vmax}, SIZE, arr, true));
   auto [v1, v2] = minmax_element(begin(arr), end(arr));
   ASSERT_TRUE(isUnique(arr, SIZE));
   ASSERT_LE(vmin, *v1);
