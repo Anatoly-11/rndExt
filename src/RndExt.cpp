@@ -664,3 +664,65 @@ RNDEXT_DLL bool MyRand::FillArray(const real64_t  min, const real64_t max, real6
   return true;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL MyRand::Rng::Rng(const MyRand::VarDat &min, const MyRand::VarDat &max) noexcept : min(min), max(max){
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL bool MyRand::FillArray(const MyRand::EValType tp, const MyRand::Rng &r, const size_t _n, void *arr, bool isUnique) noexcept {
+  MyRand::VarDat min = r.min, max = r.max;
+  switch(tp) {
+  case MyRand::EValType::Int8: {
+    if(r.min.index() != 0 && r.max.index() != 0) return false;
+    int8_t min = get<int8_t>(r.min), max = get<int8_t>(r.max); int8_t *marr = reinterpret_cast<int8_t*>(arr);
+    FillArrayImpl<int8_t>(tp, min, max, marr, _n, isUnique);
+  } break;
+  case MyRand::EValType::Uint8: {
+    if(r.min.index() != 1 && r.max.index() != 1) return false;
+    int8_t min = get<uint8_t>(r.min), max = get<uint8_t>(r.max); uint8_t *marr = reinterpret_cast<uint8_t*>(arr);
+    FillArrayImpl<uint8_t>(tp, min, max, marr, _n, isUnique);
+  } break;
+  case MyRand::EValType::Int16: {
+    if(r.min.index() != 2 && r.max.index() != 2) return false;
+    int16_t min = get<int16_t>(r.min), max = get<int16_t>(r.max); int16_t *marr = reinterpret_cast<int16_t*>(arr);
+    FillArrayImpl<int16_t>(tp, min, max, marr, _n, isUnique);
+  } break;
+  case MyRand::EValType::Uint16: {
+    if(r.min.index() != 3 && r.max.index() != 3) return false;
+    uint16_t min = get<uint16_t>(r.min), max = get<uint16_t>(r.max); uint16_t *marr = reinterpret_cast<uint16_t*>(arr);
+    FillArrayImpl<uint16_t>(tp, min, max, marr, _n, isUnique);
+  } break;
+  case MyRand::EValType::Int32: {
+    if(r.min.index() != 4 && r.max.index() != 4) return false;
+    int32_t min = get<int32_t>(r.min), max = get<int32_t>(r.max); int32_t *marr = reinterpret_cast<int32_t*>(arr);
+    FillArrayImpl<int32_t>(tp, min, max, marr, _n, isUnique);
+  } break;
+  case MyRand::EValType::Uint32: {
+    if(r.min.index() != 5 && r.max.index() != 5) return false;
+    uint32_t min = get<uint32_t>(r.min), max = get<uint32_t>(r.max); uint32_t *marr = reinterpret_cast<uint32_t*>(arr);
+    FillArrayImpl<uint32_t>(tp, min, max, marr, _n, isUnique);
+  } break;
+  case MyRand::EValType::Int64: {
+    if(r.min.index() != 6 && r.max.index() != 6) return false;
+    int64_t min = get<int64_t>(r.min), max = get<int64_t>(r.max); int64_t *marr = reinterpret_cast<int64_t*>(arr);
+    FillArrayImpl<int64_t>(tp, min, max, marr, _n, isUnique);
+  } break;
+  case MyRand::EValType::Uint64: {
+    if(r.min.index() != 7 && r.max.index() != 7) return false;
+    uint64_t min = get<uint64_t>(r.min), max = get<uint64_t>(r.max); uint64_t *marr = reinterpret_cast<uint64_t*>(arr);
+    FillArrayImpl<uint64_t>(tp, min, max, marr, _n, isUnique);
+  } break;
+  case MyRand::EValType::Real32: {
+    if(r.min.index() != 8 && r.max.index() != 8) return false;
+    real32_t min = get<real32_t>(r.min), max = get<real32_t>(r.max); real32_t *marr = reinterpret_cast<real32_t*>(arr);
+    FillArrayImpl<real32_t>(tp, min, max, marr, _n, isUnique);
+  } break;
+  case MyRand::EValType::Real64: {
+    if(r.min.index() != 9 && r.max.index() != 9) return false;
+    real64_t min = get<real64_t>(r.min), max = get<real64_t>(r.max); real64_t *marr = reinterpret_cast<real64_t*>(arr);
+    FillArrayImpl<real64_t>(tp, min, max, marr, _n, isUnique);
+  } break;
+  default:
+    return false;
+  }
+  return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
