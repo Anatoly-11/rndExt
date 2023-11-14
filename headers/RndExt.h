@@ -14,7 +14,9 @@ Attention! После использования обязательно вызывать функцию очистки ReleaseRnd. 
 //---------------------------------------------------------------------------------------------------------------------------------
 #include <cstdint>
 #include <string>
+#include <vector>
 #include <variant>
+#include <optional>
 #ifdef RNDEXT_EXPORT
 #define RNDEXT_DLL __declspec(dllexport)
 #else
@@ -165,6 +167,28 @@ namespace MyRand{
   struct Rng { VarDat min, max; };
   //-------------------------------------------------------------------------------------------------------------------------------
   RNDEXT_DLL bool FillArray(const Rng &r, const size_t _n, void *arr, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL std::optional<std::vector<int8_t>> FillVector(const int8_t  min, const int8_t max, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL std::optional<std::vector<uint8_t>> FillVector(const uint8_t  min, const uint8_t max, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL std::optional<std::vector<int16_t>> FillVector(const int16_t  min, const int16_t max, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL std::optional<std::vector<uint16_t>> FillVector(const uint16_t  min, const uint16_t max, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL std::optional<std::vector<int32_t>> FillVector(const int32_t  min, const int32_t max, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL std::optional<std::vector<uint32_t>> FillVector(const uint32_t  min, const uint32_t max, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL std::optional<std::vector<int64_t>> FillVector(const int64_t  min, const int64_t max, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL std::optional<std::vector<uint64_t>> FillVector(const uint64_t  min, const uint64_t max, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL std::optional<std::vector<real32_t>> FillVector(const real32_t min, const real32_t max, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL std::optional<std::vector<real64_t>> FillVector(const real64_t  min, const real64_t max, const size_t _n, bool isUnique) noexcept;
+  //-------------------------------------------------------------------------------------------------------------------------------
+  RNDEXT_DLL std::optional<std::string> FillStr(const char min, const char max, const size_t _n, bool isUnique) noexcept;
   //-------------------------------------------------------------------------------------------------------------------------------
 } // !namespace MyRand
 #endif // !_RNDEXT_H_

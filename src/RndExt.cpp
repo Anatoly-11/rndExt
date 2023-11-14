@@ -560,6 +560,8 @@ RNDEXT_DLL MyRand::IRndReal64 *MyRand::GetRnd(const real64_t min, const real64_t
 //---------------------------------------------------------------------------------------------------------------------------------
 template <typename T>
 void FillArrayImpl(MyRand::EValType tp, const T  min, const T max, T *arr, const size_t _n, bool isUnique) noexcept {
+#pragma warning(push)
+#pragma warning(disable:4244)
   IRnd *rnd = ((tp == MyRand::EValType::Int8) ? (IRnd*)(new RndInt8(min, max)) :
     (tp == MyRand::EValType::Uint8)  ? (IRnd*)(new RndUint8(min, max))  :
     (tp == MyRand::EValType::Int16)  ? (IRnd*)(new RndUint16(min, max)) :
@@ -570,6 +572,7 @@ void FillArrayImpl(MyRand::EValType tp, const T  min, const T max, T *arr, const
     (tp == MyRand::EValType::Uint64) ? (IRnd*)(new RndUint64(min, max)) :
     (tp == MyRand::EValType::Real32) ? (IRnd*)(new RndReal32(min, max)) :
     (tp == MyRand::EValType::Real64) ? (IRnd*)(new RndReal64(min, max)) :
+#pragma warning(pop)
     (IRnd*)nullptr);
   if(rnd != nullptr) {
     for(size_t i = 0; i < _n; i++) {
@@ -587,7 +590,7 @@ void FillArrayImpl(MyRand::EValType tp, const T  min, const T max, T *arr, const
           j++;
         }
         if(j == i) {
-          break; // перебрали все уже сгенерированые, числа нет(если есть то j на выходе бедет меньше i, но оно ему равно)
+          break; // перебрали все уже сгенерированые, числа нет(если есть то j на выходе будет меньше i, но оно ему равно)
         }
       }
       arr[i] = newValue;
@@ -658,10 +661,126 @@ RNDEXT_DLL bool MyRand::FillArray(const real32_t  min, const real32_t max, real3
   FillArrayImpl<real32_t>(MyRand::EValType::Real32, min, max, arr, _n, isUnique);
   return true;
 }
-//-------------------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------------------
 RNDEXT_DLL bool MyRand::FillArray(const real64_t  min, const real64_t max, real64_t *arr, const size_t _n, bool isUnique) noexcept {
   FillArrayImpl<real64_t>(MyRand::EValType::Real64, min, max, arr, _n, isUnique);
   return true;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL std::optional<std::vector<int8_t>> MyRand::FillVector(const int8_t  min, const int8_t max, const size_t _n, 
+  bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return {};  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  int8_t *arr = new int8_t[_n];
+  FillArrayImpl<int8_t>(MyRand::EValType::Int8, min, max, arr, _n, isUnique);
+  std::vector<int8_t> v(arr, arr + _n);
+  delete[] arr;
+  return v;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL std::optional<std::vector<uint8_t>> MyRand::FillVector(const uint8_t  min, const uint8_t max, const size_t _n,
+  bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return {};  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  uint8_t *arr = new uint8_t[_n];
+  FillArrayImpl<uint8_t>(MyRand::EValType::Uint8, min, max, arr, _n, isUnique);
+  std::vector<uint8_t> v(arr, arr + _n);
+  delete[] arr;
+  return v;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL std::optional<std::vector<int16_t>> MyRand::FillVector(const int16_t  min, const int16_t max, const size_t _n,
+  bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return {};  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  int16_t *arr = new int16_t[_n];
+  FillArrayImpl<int16_t>(MyRand::EValType::Int16, min, max, arr, _n, isUnique);
+  std::vector<int16_t> v(arr, arr + _n);
+  delete[] arr;
+  return v;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL std::optional<std::vector<uint16_t>> MyRand::FillVector(const uint16_t  min, const uint16_t max, const size_t _n,
+  bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return {};  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  uint16_t *arr = new uint16_t[_n];
+  FillArrayImpl<uint16_t>(MyRand::EValType::Uint16, min, max, arr, _n, isUnique);
+  std::vector<uint16_t> v(arr, arr + _n);
+  delete[] arr;
+  return v;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL std::optional<std::vector<int32_t>> MyRand::FillVector(const int32_t  min, const int32_t max, const size_t _n,
+  bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return {};  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  int32_t *arr = new int32_t[_n];
+  FillArrayImpl<int32_t>(MyRand::EValType::Int32, min, max, arr, _n, isUnique);
+  std::vector<int32_t> v(arr, arr + _n);
+  delete[] arr;
+  return v;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL std::optional<std::vector<uint32_t>> MyRand::FillVector(const uint32_t  min, const uint32_t max, const size_t _n,
+  bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return {};  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  uint32_t *arr = new uint32_t[_n];
+  FillArrayImpl<uint32_t>(MyRand::EValType::Uint32, min, max, arr, _n, isUnique);
+  std::vector<uint32_t> v(arr, arr + _n);
+  delete[] arr;
+  return v;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL std::optional<std::vector<int64_t>> MyRand::FillVector(const int64_t  min, const int64_t max, const size_t _n,
+  bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return {};  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  int64_t *arr = new int64_t[_n];
+  FillArrayImpl<int64_t>(MyRand::EValType::Int64, min, max, arr, _n, isUnique);
+  std::vector<int64_t> v(arr, arr + _n);
+  delete[] arr;
+  return v;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL std::optional<std::vector<uint64_t>> MyRand::FillVector(const uint64_t  min, const uint64_t max, const size_t _n,
+  bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return {};  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  uint64_t *arr = new uint64_t[_n];
+  FillArrayImpl<uint64_t>(MyRand::EValType::Uint64, min, max, arr, _n, isUnique);
+  std::vector<uint64_t> v(arr, arr + _n);
+  delete[] arr;
+  return v;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL std::optional<std::vector<real32_t>> MyRand::FillVector(const real32_t min, const real32_t max, const size_t _n,
+  bool isUnique) noexcept {
+  real32_t *arr = new real32_t[_n];
+  FillArrayImpl<real32_t>(MyRand::EValType::Real32, min, max, arr, _n, isUnique);
+  std::vector<real32_t> v(arr, arr + _n);
+  delete[] arr;
+  return v;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL std::optional<std::vector<real64_t>> MyRand::FillVector(const real64_t  min, const real64_t max, const size_t _n,
+  bool isUnique) noexcept {
+  real64_t *arr = new real64_t[_n];
+  FillArrayImpl<real64_t>(MyRand::EValType::Real64, min, max, arr, _n, isUnique);
+  std::vector<real64_t> v(arr, arr + _n);
+  delete[] arr;
+  return v;
+}
+//---------------------------------------------------------------------------------------------------------------------------------
+RNDEXT_DLL std::optional<std::string> MyRand::FillStr(const char min, const char max, const size_t _n, bool isUnique) noexcept {
+  if(isUnique && static_cast<size_t>(max - min + 1) <= _n) return {};  // Провека на зацикливание
+  // если целочисленный диапазон меньше числа элементов, то ясно что сгенерить уникальные значения невозможно ибо их не хватит
+  char *arr = new char[_n];
+  FillArrayImpl<uint8_t>(MyRand::EValType::Uint8, (uint8_t)min, (uint8_t)max, (uint8_t*)arr, _n, isUnique);
+  std::string v(arr, arr + _n);
+  delete[] arr;
+  return v;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 RNDEXT_DLL bool MyRand::FillArray(const MyRand::Rng &r, const size_t _n, void *arr, bool isUnique) noexcept {

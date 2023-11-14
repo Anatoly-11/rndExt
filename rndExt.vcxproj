@@ -76,7 +76,7 @@
     <CustomBuildAfterTargets />
     <LibraryPath>lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <SourcePath>src;$(VC_SourcePath);</SourcePath>
-    <LinkIncremental>false</LinkIncremental>
+    <LinkIncremental>true</LinkIncremental>
     <PublicIncludeDirectories>
     </PublicIncludeDirectories>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
@@ -86,6 +86,7 @@
     <SourcePath>src;$(VC_SourcePath);</SourcePath>
     <LibraryPath>lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <PostBuildEventUseInBuild>true</PostBuildEventUseInBuild>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -140,9 +141,9 @@ copy headers\rndExt.h   test\headers
 copy $(Platform)\$(Configuration)\rndExt.lib  test\lib
 copy $(Platform)\$(Configuration)\rndExt.dll  test\x64\Debug
 
-copy headers\rndExt.h   ..\matrix\headers
-copy $(Platform)\$(Configuration)\rndExt.lib  ..\matrix\lib
-copy $(Platform)\$(Configuration)\rndExt.dll  ..\matrix\x64\Debug
+rem copy headers\rndExt.h   ..\matrix\headers
+rem copy $(Platform)\$(Configuration)\rndExt.lib  ..\matrix\lib
+rem copy $(Platform)\$(Configuration)\rndExt.dll  ..\matrix\x64\Debug
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -176,9 +177,9 @@ copy headers\rndExt.h   test\headers
 copy $(Platform)\$(Configuration)\rndExt.lib  test\lib
 copy $(Platform)\$(Configuration)\rndExt.dll  test\x64\Debug
 
-copy headers\rndExt.h   ..\matrix\headers
-copy $(Platform)\$(Configuration)\rndExt.lib  ..\matrix\lib
-copy $(Platform)\$(Configuration)\rndExt.dll  ..\matrix\x64\Debug
+rem copy headers\rndExt.h   ..\matrix\headers
+rem copy $(Platform)\$(Configuration)\rndExt.lib  ..\matrix\lib
+rem copy $(Platform)\$(Configuration)\rndExt.dll  ..\matrix\x64\Debug
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
