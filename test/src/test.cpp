@@ -172,7 +172,5 @@ TEST(TestFillStringUnique, tstStr) {
   ASSERT_TRUE(isUnique(begin(v), end(v)));
   ASSERT_LE(vmin, *v1);
   ASSERT_GE(vmax, *v2);
-  //sort(begin(v), end(v));
-  //cout << v << endl;
 }
 //---------------------------------------------------------------------------------------------------------------------------------
